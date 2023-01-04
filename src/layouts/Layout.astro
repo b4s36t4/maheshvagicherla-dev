@@ -1,0 +1,108 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const path = Astro.url;
+
+const links = [
+  { label: "Home", key: "/" },
+  { label: "Blog", key: "/blog" },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <ul class="header-links">
+        {
+          links.map((link) => {
+            const isActive = path.pathname === link.key;
+            return (
+              <li>
+                <a class={`link ${isActive && "active"}`} href={link?.key}>
+                  {link?.label}
+                </a>
+              </li>
+            );
+          })
+        }
+        <!-- <li><a class={`link ${path.pathname === "/"}`} href="/">Home</a></li> -->
+        <!-- <li><a href="/blog" class="link">Blog</a></li> -->
+      </ul>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+<style is:global>
+  :root {
+    --primary: #1f2021;
+    --text: #eef3f7;
+    --gradient: linear-gradient(
+      90deg,
+      rgba(2, 0, 36, 0.9500393907563025) 7%,
+      rgba(9, 121, 46, 0.9948573179271709) 55%,
+      rgba(105, 204, 224, 1) 100%
+    );
+  }
+  html {
+    font-family: "Ubuntu", sans-serif;
+    background-color: var(--primary);
+    color: var(--text);
+  }
+  code {
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  }
+
+  .header-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 30%;
+    list-style: none;
+  }
+
+  .header-links > li {
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    color: var(--text);
+  }
+
+  .link {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .link.active {
+    text-decoration: underline;
+  }
+
+  .link:hover {
+    text-decoration: line-through;
+  }
+  main {
+    margin: auto;
+    padding: 1.5rem;
+    max-width: 60ch;
+  }
+</style>

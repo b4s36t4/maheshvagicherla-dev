@@ -1,0 +1,23 @@
+---
+import Post from "../components/post.astro";
+import Layout from "../layouts/Layout.astro";
+
+const posts = await Astro.glob<FrontMatter>("../posts/*.md");
+---
+
+<Layout title="Mahesh Vagicherla | Blog">
+  <div class="posts">
+    {
+      posts.map((post) => {
+        return <Post {...post} />;
+      })
+    }
+  </div>
+</Layout>
+
+<style>
+  .posts {
+    display: grid;
+    row-gap: 2rem;
+  }
+</style>

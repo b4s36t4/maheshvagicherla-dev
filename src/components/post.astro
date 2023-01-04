@@ -1,0 +1,28 @@
+---
+import type { MarkdownInstance } from "astro";
+
+interface Props extends MarkdownInstance<FrontMatter> {}
+const { Content, frontmatter, compiledContent, rawContent, url } = Astro.props;
+---
+
+<article>
+  <h1 class="title">{frontmatter.title}</h1>
+  <span class="posted">Posted on: {frontmatter.postedOn}</span>
+  <p>Post content: {(<Content />)}</p>
+  <p>{compiledContent}</p>
+  <p>{url} URL</p>
+  <p>{rawContent}</p>
+</article>
+
+<style>
+  .title {
+    text-decoration: underline;
+    font-size: 28px;
+    margin-bottom: 0.5rem;
+  }
+
+  .posted {
+    font-size: 12px;
+    color: #96999b;
+  }
+</style>
